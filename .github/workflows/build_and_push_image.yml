@@ -5,6 +5,8 @@ on:
 
 jobs:
   build:
+    permissions:
+      id-token: write # This is required for requesting the JWT
     name: Build Image
     runs-on: ubuntu-latest
     steps:
@@ -13,8 +15,6 @@ jobs:
     
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2.0.0
-      permissions:
-        id-token: write # This is required for requesting the JWT
       with:
         role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/${{ secrets.ECR_ROLE }}
         aws-region: sa-east-1
