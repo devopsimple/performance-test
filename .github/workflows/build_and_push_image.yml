@@ -1,4 +1,4 @@
-name: Deploy to ECR
+name: Image-Build & Push
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v2.0.0
       with:
         role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/${{ secrets.ECR_ROLE }}
-        aws-region: ap-south-1
+        aws-region: sa-east-1
 
     - name: Login to Amazon ECR
       id: login-ecr
