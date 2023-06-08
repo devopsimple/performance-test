@@ -28,5 +28,13 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
         echo "Registry: $ECR_REGISTRY"
+        ls -al
         # docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.14.2/pack-v0.14.2-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack
+
+        # Build app with pack CLI
+        pack build spring-boot-buildpack --path . --builder paketobuildpacks/builder:base
+
+        docker tag spring-boot-buildpack performance-test:latest
+        docker push  $ECR_REGISTRY/performance-test:latest
